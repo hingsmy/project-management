@@ -2,7 +2,7 @@ package com.hingsmy.projectmanagement.controllers;
 
 import com.hingsmy.projectmanagement.dao.EmployeeRepository;
 import com.hingsmy.projectmanagement.dao.ProjectRepository;
-import com.hingsmy.projectmanagement.entities.Employee;
+import com.hingsmy.projectmanagement.dto.EmployeeProject;
 import com.hingsmy.projectmanagement.entities.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,11 +25,11 @@ public class HomeController {
 
         // query the database for projects
         List<Project> projects = proRepo.findAll();
+        model.addAttribute("projectsList", projects);
 
         // query the database for employees
-        List<Employee> employees = employeeRepo.findAll();
-        model.addAttribute("projectsList", projects);
-        model.addAttribute("employeesList", employees);
+        List<EmployeeProject> employeeProjects = employeeRepo.employeeProjects();
+        model.addAttribute("employeesListProjectsCnt", employeeProjects);
 
         return "main/home";
     }
