@@ -1,7 +1,7 @@
 package com.hingsmy.projectmanagement.controllers;
 
-import com.hingsmy.projectmanagement.dao.EmployeeRepository;
 import com.hingsmy.projectmanagement.entities.Employee;
+import com.hingsmy.projectmanagement.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +15,14 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
 
+
+
     @Autowired
-    EmployeeRepository employeeRepo;
+    EmployeeService empServer;
 
     @GetMapping
     public String displayEmployees(Model model) {
-        List<Employee> employees = employeeRepo.findAll();
+        List<Employee> employees = empServer.getAll();
         model.addAttribute("employees", employees);
         return "employees/list-employees";
     }
@@ -36,7 +38,7 @@ public class EmployeeController {
     @PostMapping("/save")
     public String createEmployee(Employee employee, Model model) {
         // this should handle saving to the database
-        employeeRepo.save(employee);
+        empServer.save(employee);
 
         // use a redirect to prevent duplicate submissions
         return "redirect:/employees/new";
